@@ -188,22 +188,6 @@ function setBusy(v) {
   input.disabled = v;
 }
 
-// ---------- health check ----------------------------------------------
-async function checkHealth() {
-  try {
-    const r = await fetch("/api/health");
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const h = await r.json();
-    dot.classList.remove("bad");
-    dot.classList.add("ok");
-    statusText.textContent = h.cloud_model || "ready";
-  } catch {
-    dot.classList.remove("ok");
-    dot.classList.add("bad");
-    statusText.textContent = "backend offline";
-  }
-}
-
 // ---------- text command ----------------------------------------------
 async function sendCommand(text) {
   if (busy || !text.trim()) return;
@@ -417,9 +401,6 @@ addMessage(
   "meta"
 );
 
-checkHealth();
-setInterval(checkHealth, 15000);
-input.focus();
 </script>
 </body>
 </html>
